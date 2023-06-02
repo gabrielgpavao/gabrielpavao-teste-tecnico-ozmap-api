@@ -15,7 +15,7 @@ const router = new Router();
 
 //rota simples pra testar se o servidor está online
 router.get('/', async (ctx) => {
-	ctx.body = `Seu servidor esta rodando em http://localhost:${PORT}`; //http://localhost:3000/
+	ctx.body = 'Seu servidor esta rodando';
 });
 
 //Uma rota de exemplo simples aqui.
@@ -25,12 +25,6 @@ router.get('/users', async (ctx) => {
 	ctx.body = {total:0, count: 0, rows:[]};
 });
 
-const PORT: string | number = process.env.PORT || 3000;
-
-app
-	.use(router.routes())
-	.use(router.allowedMethods());
-
-export const server = app.listen(PORT);
+app.use(router.routes()).use(router.allowedMethods());
 
 export default app;
