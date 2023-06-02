@@ -6,12 +6,12 @@
 
 // todas as configuraçoes devem ser passadas via environment variables
 
-import Koa from 'koa'
-import Router from 'koa-router'
+import Koa from 'koa';
+import Router from 'koa-router';
 
 
 const koa = new Koa();
-var router = new Router();
+const router = new Router();
 
 //rota simples pra testar se o servidor está online
 router.get('/', async (ctx) => {
@@ -22,7 +22,7 @@ router.get('/', async (ctx) => {
 //As rotas devem ficar em arquivos separados, /src/controllers/userController.js por exemplo
 router.get('/users', async (ctx) => {
 	ctx.status = 200;
-    ctx.body = {total:0, count: 0, rows:[]}
+	ctx.body = {total:0, count: 0, rows:[]};
 });
 
 const PORT: string | number = process.env.PORT || 3000;
@@ -30,7 +30,9 @@ const PORT: string | number = process.env.PORT || 3000;
 koa
 	.use(router.routes())
 	.use(router.allowedMethods());
-  
+
 const server = koa.listen(PORT);
-  
-module.exports = server;
+
+export {
+	server
+};
