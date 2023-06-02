@@ -8,12 +8,11 @@
 //https://www.chaijs.com/plugins/chai-json-schema/
 //https://developer.mozilla.org/pt-PT/docs/Web/HTTP/Status (http codes)
 
-const app =  require('../src/index.js');
-
-const assert = require('assert');
-const chai = require('chai')
-const chaiHttp = require('chai-http');
-const chaiJson = require('chai-json-schema');
+import * as assert from 'assert'
+import chai from 'chai'
+import chaiHttp from 'chai-http'
+import chaiJson from 'chai-json-schema'
+import app from '../src/index'
 
 chai.use(chaiHttp);
 chai.use(chaiJson);
