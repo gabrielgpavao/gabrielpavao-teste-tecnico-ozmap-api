@@ -50,3 +50,5 @@ Thumbs.db
 
 *lock*
 .env
+
+database.db

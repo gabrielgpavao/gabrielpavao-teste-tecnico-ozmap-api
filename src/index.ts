@@ -10,7 +10,7 @@ import Koa from 'koa';
 import Router from 'koa-router';
 
 
-const koa = new Koa();
+const app = new Koa();
 const router = new Router();
 
 //rota simples pra testar se o servidor está online
@@ -27,12 +27,10 @@ router.get('/users', async (ctx) => {
 
 const PORT: string | number = process.env.PORT || 3000;
 
-koa
+app
 	.use(router.routes())
 	.use(router.allowedMethods());
 
-const server = koa.listen(PORT);
+export const server = app.listen(PORT);
 
-export {
-	server
-};
+export default app;
