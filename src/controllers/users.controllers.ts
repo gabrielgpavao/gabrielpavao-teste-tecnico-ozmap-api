@@ -1,7 +1,13 @@
 import { Context } from 'koa';
+import { createUserService } from '../services/users/createUser.service';
+import { userInputDataSchema } from '../schemas/users.schemas';
+import { tUserInputData, tUserOutputData } from '../interfaces/users.interfaces';
 
 async function createUserController(ctx: Context) {
-	ctx.body = 'It should create an User';
+	const userData: tUserInputData = userInputDataSchema.parse(ctx.request.body);
+	const newUser: tUserOutputData = await createUserService(userData);
+
+	ctx.body = newUser;
 	ctx.status = 201;
 }
 
