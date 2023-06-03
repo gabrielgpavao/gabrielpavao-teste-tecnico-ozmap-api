@@ -1,11 +1,10 @@
 import Koa from 'koa';
-import Router from 'koa-router';
-import { handleErrorsMiddleware } from './middlewares/errors.middleware'
+import { handleErrorsMiddleware } from './middlewares/errors.middleware';
+import { usersRoutes } from './routes/users.routes';
 
 const app = new Koa();
-const router = new Router();
 
 app.use(handleErrorsMiddleware);
-app.use(router.routes()).use(router.allowedMethods());
+app.use(usersRoutes.routes()).use(usersRoutes.allowedMethods());
 
 export default app;
