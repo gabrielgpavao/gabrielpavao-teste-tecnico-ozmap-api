@@ -1,15 +1,16 @@
 import { Context } from 'koa';
 import { createUserService } from '../services/users/createUser.service';
 import { userInputDataSchema } from '../schemas/users.schemas';
-import { tUserInputData, tUserOutputData } from '../interfaces/users.interfaces';
+import { tUserOutputData } from '../interfaces/users.interfaces';
 import { listUsersService } from '../services/users/listUsers.service';
 import { retrieveUserService } from '../services/users/retrieveUser.service';
 import { deleteUserService } from '../services/users/deleteUser.service';
 import { updateUserService } from '../services/users/updateUser.service';
 
 async function createUserController(ctx: Context) {
-	const userData: tUserInputData = userInputDataSchema.parse(ctx.request.body);
-	const newUser: tUserOutputData = await createUserService(userData);
+	const payload: any = ctx.request.body;
+
+	const newUser: tUserOutputData = await createUserService(payload);
 
 	ctx.body = newUser;
 	ctx.status = 201;
