@@ -4,7 +4,6 @@ import { ZodTypeAny } from 'zod';
 import { tUserRepo } from '../interfaces/users.interfaces';
 import { AppDataSource } from '../data-source';
 import { User } from '../entities/users.entity';
-import { userInputDataSchema } from '../schemas/users.schemas';
 import { AppError } from './errors.middleware';
 
 function validateEntryDataMiddleware(schema: ZodTypeAny): IMiddleware {
@@ -17,12 +16,14 @@ function validateEntryDataMiddleware(schema: ZodTypeAny): IMiddleware {
 async function verifyEmailDuplicityMiddleware(ctx: Context, next: Next): Promise<void> {
 	const userRepository: tUserRepo = AppDataSource.getRepository(User);
 
-	const findUser: User | null = await userRepository.findOneBy({
-		email: userInputDataSchema.parse(ctx.request.body).email
-	});
+	const payload: any = ctx.request.body;
 
-	if (findUser) {
-		throw new AppError(409, 'Email already exists');
+	if (payload.email) {
+		const findUser: User | null = await userRepository.findOneBy({ email: payload });
+
+		if (findUser) {
+			throw new AppError(409, 'Email already exists');
+		}
 	}
 
 	next();
@@ -31,12 +32,26 @@ async function verifyEmailDuplicityMiddleware(ctx: Context, next: Next): Promise
 async function verifyNameDuplicityMiddleware(ctx: Context, next: Next): Promise<void> {
 	const userRepository: tUserRepo = AppDataSource.getRepository(User);
 
-	const findUser: User | null = await userRepository.findOneBy({
-		name: userInputDataSchema.parse(ctx.request.body).name
-	});
+	const payload: any = ctx.request.body;
 
-	if (findUser) {
-		throw new AppError(409, 'Name already exists');
+	if (payload.name) {
+		const findUser: User | null = await userRepository.findOneBy({ name: payload.name });
+
+		if (findUser) {
+			throw new AppError(409, 'Name already exists');
+		}
+	}
+
+	next();
+}
+
+async function ensureUserExistsMiddleware(ctx: Context, next: Next): Promise<void> {
+	const userRepository: tUserRepo = AppDataSource.getRepository(User);
+
+	const user: User | null = await userRepository.findOneBy({ id: +ctx.params.id });
+
+	if (!user) {
+		throw new AppError(404, 'User not found');
 	}
 
 	next();
@@ -45,5 +60,6 @@ async function verifyNameDuplicityMiddleware(ctx: Context, next: Next): Promise<
 export {
 	validateEntryDataMiddleware,
 	verifyEmailDuplicityMiddleware,
-	verifyNameDuplicityMiddleware
+	verifyNameDuplicityMiddleware,
+	ensureUserExistsMiddleware
 };

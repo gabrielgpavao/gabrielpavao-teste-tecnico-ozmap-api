@@ -1,14 +1,15 @@
 import { Context } from 'koa';
 import { createUserService } from '../services/users/createUser.service';
-import { userInputDataSchema } from '../schemas/users.schemas';
-import { tUserInputData, tUserOutputData } from '../interfaces/users.interfaces';
+import { tUserOutputData } from '../interfaces/users.interfaces';
 import { listUsersService } from '../services/users/listUsers.service';
 import { retrieveUserService } from '../services/users/retrieveUser.service';
 import { deleteUserService } from '../services/users/deleteUser.service';
+import { updateUserService } from '../services/users/updateUser.service';
 
 async function createUserController(ctx: Context) {
-	const userData: tUserInputData = userInputDataSchema.parse(ctx.request.body);
-	const newUser: tUserOutputData = await createUserService(userData);
+	const payload: any = ctx.request.body;
+
+	const newUser: tUserOutputData = await createUserService(payload);
 
 	ctx.body = newUser;
 	ctx.status = 201;
@@ -29,6 +30,16 @@ async function retrieveUserController(ctx: Context) {
 	ctx.status = 200;
 }
 
+async function updateUserController(ctx: Context) {
+	const payload: any = ctx.request.body;
+	const userId: string = ctx.params.id;
+
+	const newUser: tUserOutputData = await updateUserService(userId, payload);
+
+	ctx.body = newUser;
+	ctx.status = 200;
+}
+
 async function deleteUserController(ctx: Context) {
 	const userId: string = ctx.params.id;
 	await deleteUserService(userId);
@@ -40,5 +51,6 @@ export {
 	createUserController,
 	listUsersController,
 	retrieveUserController,
+	updateUserController,
 	deleteUserController
 };
