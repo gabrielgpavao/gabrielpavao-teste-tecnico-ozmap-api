@@ -7,14 +7,14 @@ import { User } from '../entities/users.entity';
 import { userInputDataSchema } from '../schemas/users.schemas';
 import { AppError } from './errors.middleware';
 
-function validateEntryData(schema: ZodTypeAny): IMiddleware {
+function validateEntryDataMiddleware(schema: ZodTypeAny): IMiddleware {
 	return (ctx: Context, next: Next): void => {
 		ctx.request.body = schema.parse(ctx.request.body);
 		next();
 	};
 }
 
-async function verifyEmailDuplicity(ctx: Context, next: Next): Promise<void> {
+async function verifyEmailDuplicityMiddleware(ctx: Context, next: Next): Promise<void> {
 	const userRepository: tUserRepo = AppDataSource.getRepository(User);
 
 	const findUser: User | null = await userRepository.findOneBy({
@@ -28,7 +28,22 @@ async function verifyEmailDuplicity(ctx: Context, next: Next): Promise<void> {
 	next();
 }
 
+async function verifyNameDuplicityMiddleware(ctx: Context, next: Next): Promise<void> {
+	const userRepository: tUserRepo = AppDataSource.getRepository(User);
+
+	const findUser: User | null = await userRepository.findOneBy({
+		name: userInputDataSchema.parse(ctx.request.body).name
+	});
+
+	if (findUser) {
+		throw new AppError(409, 'Name already exists');
+	}
+
+	next();
+}
+
 export {
-	validateEntryData,
-	verifyEmailDuplicity
+	validateEntryDataMiddleware,
+	verifyEmailDuplicityMiddleware,
+	verifyNameDuplicityMiddleware
 };
