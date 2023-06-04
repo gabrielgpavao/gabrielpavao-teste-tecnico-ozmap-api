@@ -5,6 +5,7 @@ import { tUserInputData, tUserOutputData } from '../interfaces/users.interfaces'
 import { listUsersService } from '../services/users/listUsers.service';
 import { retrieveUserService } from '../services/users/retrieveUser.service';
 import { deleteUserService } from '../services/users/deleteUser.service';
+import { updateUserService } from '../services/users/updateUser.service';
 
 async function createUserController(ctx: Context) {
 	const userData: tUserInputData = userInputDataSchema.parse(ctx.request.body);
@@ -29,6 +30,15 @@ async function retrieveUserController(ctx: Context) {
 	ctx.status = 200;
 }
 
+async function updateUserController(ctx: Context) {
+	const userData = userInputDataSchema.parse(ctx.request.body);
+	const userId: string = ctx.params.id;
+	const newUser: tUserOutputData = await updateUserService(userId, userData);
+
+	ctx.body = newUser;
+	ctx.status = 200;
+}
+
 async function deleteUserController(ctx: Context) {
 	const userId: string = ctx.params.id;
 	await deleteUserService(userId);
@@ -40,5 +50,6 @@ export {
 	createUserController,
 	listUsersController,
 	retrieveUserController,
+	updateUserController,
 	deleteUserController
 };
