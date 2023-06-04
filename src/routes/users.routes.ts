@@ -14,6 +14,6 @@ usersRoutes.get('/', listUsersController);
 
 usersRoutes.get('/:id', retrieveUserController);
 
-usersRoutes.put('/:id', updateUserController);
+usersRoutes.patch('/:id', updateUserController);
 
 usersRoutes.delete('/:id', deleteUserController);

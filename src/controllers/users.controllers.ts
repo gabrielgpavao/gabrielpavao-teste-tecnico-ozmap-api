@@ -32,9 +32,10 @@ async function retrieveUserController(ctx: Context) {
 }
 
 async function updateUserController(ctx: Context) {
-	const userData = userInputDataSchema.parse(ctx.request.body);
+	const payload: any = ctx.request.body;
 	const userId: string = ctx.params.id;
-	const newUser: tUserOutputData = await updateUserService(userId, userData);
+
+	const newUser: tUserOutputData = await updateUserService(userId, payload);
 
 	ctx.body = newUser;
 	ctx.status = 200;
