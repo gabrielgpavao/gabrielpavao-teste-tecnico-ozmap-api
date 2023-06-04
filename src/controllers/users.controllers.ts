@@ -1,6 +1,5 @@
 import { Context } from 'koa';
 import { createUserService } from '../services/users/createUser.service';
-import { userInputDataSchema } from '../schemas/users.schemas';
 import { tUserOutputData } from '../interfaces/users.interfaces';
 import { listUsersService } from '../services/users/listUsers.service';
 import { retrieveUserService } from '../services/users/retrieveUser.service';

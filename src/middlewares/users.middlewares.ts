@@ -18,10 +18,12 @@ async function verifyEmailDuplicityMiddleware(ctx: Context, next: Next): Promise
 
 	const payload: any = ctx.request.body;
 
-	const findUser: User | null = await userRepository.findOneBy({ email: payload });
+	if (payload.email) {
+		const findUser: User | null = await userRepository.findOneBy({ email: payload });
 
-	if (findUser) {
-		throw new AppError(409, 'Email already exists');
+		if (findUser) {
+			throw new AppError(409, 'Email already exists');
+		}
 	}
 
 	next();
@@ -32,10 +34,12 @@ async function verifyNameDuplicityMiddleware(ctx: Context, next: Next): Promise<
 
 	const payload: any = ctx.request.body;
 
-	const findUser: User | null = await userRepository.findOneBy({ name: payload.name });
+	if (payload.name) {
+		const findUser: User | null = await userRepository.findOneBy({ name: payload.name });
 
-	if (findUser) {
-		throw new AppError(409, 'Name already exists');
+		if (findUser) {
+			throw new AppError(409, 'Name already exists');
+		}
 	}
 
 	next();

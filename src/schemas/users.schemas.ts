@@ -13,8 +13,11 @@ const userInputDataSchema = userDataSchema.omit({
 
 const usersListSchema = userDataSchema.array();
 
+const updateUserInputDataSchema = userInputDataSchema.deepPartial();
+
 export {
 	userInputDataSchema,
 	userDataSchema,
-	usersListSchema
+	usersListSchema,
+	updateUserInputDataSchema
 };
