@@ -7,9 +7,9 @@ import { User } from '../entities/users.entity';
 import { AppError } from './errors.middleware';
 
 function validateEntryDataMiddleware(schema: ZodTypeAny): IMiddleware {
-	return (ctx: Context, next: Next): void => {
+	return async (ctx: Context, next: Next): Promise<void> => {
 		ctx.request.body = schema.parse(ctx.request.body);
-		next();
+		await next();
 	};
 }
 
@@ -26,7 +26,7 @@ async function verifyEmailDuplicityMiddleware(ctx: Context, next: Next): Promise
 		}
 	}
 
-	next();
+	await next();
 }
 
 async function verifyNameDuplicityMiddleware(ctx: Context, next: Next): Promise<void> {
@@ -42,7 +42,7 @@ async function verifyNameDuplicityMiddleware(ctx: Context, next: Next): Promise<
 		}
 	}
 
-	next();
+	await next();
 }
 
 async function ensureUserExistsMiddleware(ctx: Context, next: Next): Promise<void> {
@@ -54,7 +54,7 @@ async function ensureUserExistsMiddleware(ctx: Context, next: Next): Promise<voi
 		throw new AppError(404, 'User not found');
 	}
 
-	next();
+	await next();
 }
 
 export {
