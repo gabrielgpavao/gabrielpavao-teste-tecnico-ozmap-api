@@ -3,6 +3,7 @@ import { createUserService } from '../services/users/createUser.service';
 import { userInputDataSchema } from '../schemas/users.schemas';
 import { tUserInputData, tUserOutputData } from '../interfaces/users.interfaces';
 import { listUsersService } from '../services/users/listUsers.service';
+import { retrieveUserService } from '../services/users/retrieveUser.service';
 
 async function createUserController(ctx: Context) {
 	const userData: tUserInputData = userInputDataSchema.parse(ctx.request.body);
@@ -19,7 +20,16 @@ async function listUsersController(ctx: Context) {
 	ctx.status = 200;
 }
 
+async function retrieveUserController(ctx: Context) {
+	const userId: string = ctx.params.id;
+	const user: tUserOutputData = await retrieveUserService(userId);
+
+	ctx.body = user;
+	ctx.status = 200;
+}
+
 export {
 	createUserController,
-	listUsersController
+	listUsersController,
+	retrieveUserController
 };
