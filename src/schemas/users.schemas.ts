@@ -11,7 +11,10 @@ const userInputDataSchema = userDataSchema.omit({
 	id: true
 });
 
+const usersListSchema = userDataSchema.array();
+
 export {
 	userInputDataSchema,
-	userDataSchema
+	userDataSchema,
+	usersListSchema
 };
