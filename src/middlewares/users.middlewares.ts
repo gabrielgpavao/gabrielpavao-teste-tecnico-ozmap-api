@@ -45,8 +45,21 @@ async function verifyNameDuplicityMiddleware(ctx: Context, next: Next): Promise<
 	next();
 }
 
+async function ensureUserExistsMiddleware(ctx: Context, next: Next): Promise<void> {
+	const userRepository: tUserRepo = AppDataSource.getRepository(User);
+
+	const user: User | null = await userRepository.findOneBy({ id: +ctx.params.id });
+
+	if (!user) {
+		throw new AppError(404, 'User not found');
+	}
+
+	next();
+}
+
 export {
 	validateEntryDataMiddleware,
 	verifyEmailDuplicityMiddleware,
-	verifyNameDuplicityMiddleware
+	verifyNameDuplicityMiddleware,
+	ensureUserExistsMiddleware
 };
