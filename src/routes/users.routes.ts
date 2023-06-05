@@ -14,6 +14,6 @@ usersRoutes.get('/', listUsersController);
 
 usersRoutes.get('/:id', ensureUserExistsMiddleware, retrieveUserController);
 
-usersRoutes.patch('/:id', ensureUserExistsMiddleware, validateEntryDataMiddleware(updateUserInputDataSchema), verifyEmailDuplicityMiddleware, verifyNameDuplicityMiddleware, updateUserController);
+usersRoutes.patch('/:id', bodyParser(), ensureUserExistsMiddleware, validateEntryDataMiddleware(updateUserInputDataSchema), verifyEmailDuplicityMiddleware, verifyNameDuplicityMiddleware, updateUserController);
 
 usersRoutes.delete('/:id', ensureUserExistsMiddleware, deleteUserController);
