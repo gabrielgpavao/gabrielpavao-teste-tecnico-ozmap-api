@@ -16,7 +16,10 @@ async function createUserController(ctx: Context) {
 }
 
 async function listUsersController(ctx: Context) {
-	const usersList: Array<tUserOutputData> = await listUsersService();
+	const page = Number(ctx.query.page) || 1;
+	const perPage = Number(ctx.query.perPage) || 3;
+
+	const usersList = await listUsersService(page, perPage);
 
 	ctx.body = usersList;
 	ctx.status = 200;
