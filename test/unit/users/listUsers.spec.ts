@@ -7,6 +7,7 @@ import { AppDataSource } from '../../../src/data-source';
 import { User } from '../../../src/entities/users.entity';
 import listUsersMock from '../../mock/users/listUsers.mock';
 import 'dotenv/config';
+import { userSchema } from '../../schemas/users.schemas';
 
 const PORT = Number(process.env.APP_PORT) || 3001;
 const app = server.listen(PORT + 1);
@@ -56,6 +57,7 @@ describe('GET /users', () => {
 			.send();
 
 		expect(res).to.have.status(200);
+		expect(res.body.data[0]).to.be.jsonSchema(userSchema);
 		expect(res.body).to.deep.equal({
 			prevPage: null,
 			nextPage: `http://localhost:${PORT}${baseUrl}?page=2&perPage=3`,

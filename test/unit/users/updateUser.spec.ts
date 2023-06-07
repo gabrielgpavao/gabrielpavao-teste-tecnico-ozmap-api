@@ -8,6 +8,7 @@ import { User } from '../../../src/entities/users.entity';
 import createUserMock from '../../mock/users/createUser.mock';
 import updateUserMock from '../../mock/users/updateUser.mock';
 import 'dotenv/config';
+import { userSchema } from '../../schemas/users.schemas';
 
 const PORT = Number(process.env.APP_PORT) || 3001;
 const app = server.listen(PORT + 3);
@@ -49,6 +50,7 @@ describe('PATCH /users/:id', () => {
 			.end(function (err, res) {
 				expect(err).to.be.null;
 				expect(res).to.have.status(200);
+				expect(res.body).to.be.jsonSchema(userSchema);
 				expect(res.body).to.deep.equal({
 					id: createdUser.id,
 					...updateUserMock.validUserComplete
@@ -64,6 +66,7 @@ describe('PATCH /users/:id', () => {
 			.end(function (err, res) {
 				expect(err).to.be.null;
 				expect(res).to.have.status(200);
+				expect(res.body).to.be.jsonSchema(userSchema);
 				expect(res.body).to.deep.equal({
 					...createdUser,
 					age: updateUserMock.validUserPartial.age
