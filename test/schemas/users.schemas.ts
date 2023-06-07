@@ -1,15 +1,18 @@
 export const userSchema = {
-	title: 'Schema do Usuario, define como é o usuario, linha 24 do teste',
+	title: 'User Schema',
 	type: 'object',
-	required: ['nome', 'email', 'idade'],
+	required: ['id', 'name', 'email', 'age'],
 	properties: {
-		nome: {
+		id: {
+			type: 'number'
+		},
+		name: {
 			type: 'string'
 		},
 		email: {
 			type: 'string'
 		},
-		idade: {
+		age: {
 			type: 'number',
 			minimum: 18
 		}
