@@ -20,6 +20,7 @@ describe('DELETE /users/:id', () => {
 	const userRepo = AppDataSource.getRepository(User);
 
 	const baseUrl = '/users/1';
+	const invalidIdUrl = '/users/9999';
 
 	before(async () => {
 		await AppDataSource.initialize()
@@ -46,6 +47,21 @@ describe('DELETE /users/:id', () => {
 				expect(err).to.be.null;
 				expect(res).to.have.status(204);
 				expect(res.body).to.deep.equal({});
+				done();
+			});
+	});
+
+	it('Error: Must not be able to delete an user - User not found', (done) => {
+		chai.request(app)
+			.delete(invalidIdUrl)
+			.send()
+			.end((err, res) => {
+				expect(err).to.be.null;
+				expect(res).to.have.status(404);
+				expect(res.body).to.deep.equal({
+					code: 404,
+					message: 'User not found'
+				});
 				done();
 			});
 	});
