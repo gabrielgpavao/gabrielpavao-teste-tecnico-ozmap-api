@@ -4,9 +4,10 @@
   "description": "Project to test the hability of the coop to solve basic problems",
   "main": "index.js",
   "scripts": {
+	"build": "rm -rf dist && tsc",
     "dev": "ts-node-dev --cls --rs --ignore-watch node_modules src/server.ts",
     "typeorm": "typeorm-ts-node-commonjs",
-    "test": "mocha",
+    "test": "yarn build && mocha --exit --recursive dist/test/units",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
   },
   "repository": {
