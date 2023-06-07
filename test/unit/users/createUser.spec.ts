@@ -7,6 +7,7 @@ import { AppDataSource } from '../../../src/data-source';
 import { User } from '../../../src/entities/users.entity';
 import createUserMock from '../../mock/users/createUser.mock';
 import 'dotenv/config';
+import { userSchema } from '../../schemas/users.schemas';
 
 const PORT = Number(process.env.APP_PORT) || 3001;
 const app = server.listen(PORT);
@@ -43,6 +44,7 @@ describe('POST /users', () => {
 			.end(function (err, res) {
 				expect(err).to.be.null;
 				expect(res).to.have.status(201);
+				expect(res.body).to.be.jsonSchema(userSchema);
 				expect(res.body).to.deep.equal({
 					id: 1,
 					...createUserMock.validUser1
