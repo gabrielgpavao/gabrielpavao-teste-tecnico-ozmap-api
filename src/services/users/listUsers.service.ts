@@ -26,8 +26,8 @@ export async function listUsersService(page: number, perPage: number) {
 	const count: number = await userRepository.count();
 	const maxPage: number = Math.ceil(count/perPage);
 
-	const prevPage: string | null = page === 1 || page > maxPage + 1 ? null : `${baseUrl}/movies?page=${page - 1}&perPage=${perPage}`;
-	const nextPage: string | null = page >= maxPage ? null : `${baseUrl}/movies?page=${page + 1}&perPage=${perPage}`;
+	const prevPage: string | null = page === 1 || page > maxPage + 1 ? null : `${baseUrl}/users?page=${page - 1}&perPage=${perPage}`;
+	const nextPage: string | null = page >= maxPage ? null : `${baseUrl}/users?page=${page + 1}&perPage=${perPage}`;
 
 	const handleResponse = {
 		prevPage,
