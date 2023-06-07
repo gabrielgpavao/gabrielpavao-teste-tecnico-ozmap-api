@@ -6,7 +6,7 @@ export const docsRoutes: Router = new Router({
 	prefix: '/swagger'
 });
 
-const spec = yamljs.load('./public/swagger.yaml');
+const spec = yamljs.load('./api.yaml');
 
 docsRoutes.use(koaSwagger({ swaggerOptions: { spec } }));
 
