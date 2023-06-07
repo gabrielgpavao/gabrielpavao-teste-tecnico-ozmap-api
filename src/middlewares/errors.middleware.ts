@@ -31,6 +31,7 @@ async function handleErrorsMiddleware (ctx: Context, next: Next) {
 		} else {
 			ctx.body = new AppError(500, 'Internal Error Server');
 			ctx.status = 500;
+			console.log(error);
 		}
 	}
 }
