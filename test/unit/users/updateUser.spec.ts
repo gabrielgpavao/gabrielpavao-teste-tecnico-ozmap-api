@@ -20,6 +20,7 @@ describe('PATCH /users/:id', () => {
 	let connection: DataSource;
 
 	const baseUrl = '/users/1';
+	const invalidIdUrl = '/users/9999';
 
 	const userRepo = AppDataSource.getRepository(User);
 	let createdUser: User;
@@ -66,6 +67,70 @@ describe('PATCH /users/:id', () => {
 				expect(res.body).to.deep.equal({
 					...createdUser,
 					age: updateUserMock.validUserPartial.age
+				});
+				done();
+			});
+	});
+
+	it('Error: Must not be able to update an user - User not found', (done) => {
+		chai.request(app)
+			.patch(invalidIdUrl)
+			.send(updateUserMock.validUserPartial)
+			.end(function (err, res) {
+				expect(err).to.be.null;
+				expect(res).to.have.status(404);
+				expect(res.body).to.deep.equal({
+					code: 404,
+					message: 'User not found'
+				});
+				done();
+			});
+	});
+
+	it('Error: Must not be able to update an user - Invalid Body', (done) => {
+		chai.request(app)
+			.patch(baseUrl)
+			.send(updateUserMock.invalidBodyUser)
+			.end(function (err, res) {
+				expect(err).to.be.null;
+				expect(res).to.have.status(400);
+				expect(res.body).to.deep.equal({
+					email: [
+						'Expected string, received array'
+					],
+					name: [
+						'Expected string, received number'
+					]
+				});
+				done();
+			});
+	});
+
+	it('Error: Must not be able to update an user - Name already exists', (done) => {
+		chai.request(app)
+			.patch(baseUrl)
+			.send(updateUserMock.nameAlreadyExistsUser)
+			.end(function (err, res) {
+				expect(err).to.be.null;
+				expect(res).to.have.status(409);
+				expect(res.body).to.deep.equal({
+					code: 409,
+					message: 'Name already exists'
+				});
+				done();
+			});
+	});
+
+	it('Error: Must not be able to update an user - Email already exists', (done) => {
+		chai.request(app)
+			.patch(baseUrl)
+			.send(updateUserMock.emailAlreadyExistsUser)
+			.end(function (err, res) {
+				expect(err).to.be.null;
+				expect(res).to.have.status(409);
+				expect(res.body).to.deep.equal({
+					code: 409,
+					message: 'Email already exists'
 				});
 				done();
 			});
