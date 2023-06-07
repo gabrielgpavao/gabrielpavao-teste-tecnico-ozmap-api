@@ -18,6 +18,7 @@ describe('GET /users/:id', () => {
 	let connection: DataSource;
 	const userRepo = AppDataSource.getRepository(User);
 	const baseUrl = '/users/1';
+	const invalidIdUrl = '/users/9999';
 
 	let usersList: Array<User>;
 
@@ -44,6 +45,21 @@ describe('GET /users/:id', () => {
 				expect(err).to.be.null;
 				expect(res).to.have.status(200);
 				expect(res.body).to.deep.equal(usersList[0]);
+				done();
+			});
+	});
+
+	it('Error: Must not be able to retrieve an user - User not found', (done) => {
+		chai.request(app)
+			.get(invalidIdUrl)
+			.send()
+			.end((err, res) => {
+				expect(err).to.be.null;
+				expect(res).to.have.status(404);
+				expect(res.body).to.deep.equal({
+					code: 404,
+					message: 'User not found'
+				});
 				done();
 			});
 	});
