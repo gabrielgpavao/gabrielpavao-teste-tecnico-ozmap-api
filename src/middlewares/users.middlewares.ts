@@ -19,7 +19,7 @@ async function verifyEmailDuplicityMiddleware(ctx: Context, next: Next): Promise
 	const payload: any = ctx.request.body;
 
 	if (payload.email) {
-		const findUser: User | null = await userRepository.findOneBy({ email: payload });
+		const findUser: User | null = await userRepository.findOneBy({ email: payload.email });
 
 		if (findUser) {
 			throw new AppError(409, 'Email already exists');
