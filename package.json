@@ -7,7 +7,7 @@
 	"build": "rm -rf dist && tsc",
     "dev": "ts-node-dev --cls --rs --ignore-watch node_modules src/server.ts",
     "typeorm": "typeorm-ts-node-commonjs",
-    "test": "yarn build && mocha --exit --recursive dist/test/unit",
+    "test": "yarn build && mocha --exit --recursive dist/test",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
   },
   "repository": {
