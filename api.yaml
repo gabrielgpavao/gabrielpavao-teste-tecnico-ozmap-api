@@ -78,28 +78,53 @@ paths:
       summary: List users
       description: Get all users
       operationId: listUsers
+      parameters:
+        - name: page
+          in: query
+          schema:
+            type: string
+            default: 1
+        - name: perPage
+          in: query
+          schema:
+            type: string
+            default: 3
       responses:
         '200':
           description: successful operation
           content:
             application/json:
               schema:
-                type: array
-                items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                      example: 1
-                    name:
-                      type: string
-                      example: Johnny
-                    email:
-                      type: string
-                      example: johndoe@email.com
-                    age:
-                      type: number
-                      example: 29
+                type: object
+                properties:
+                  prevPage:
+                    type: string
+                    nullable: true
+                    example: null
+                  nextPage:
+                    type: string
+                    nullable: true
+                    example: http://localhost:3001/users?page=2&perPage=1
+                  count:
+                    type: number
+                    example: 2
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                          example: 1
+                        name:
+                          type: string
+                          example: Johnny
+                        email:
+                          type: string
+                          example: johndoe@email.com
+                        age:
+                          type: number
+                          example: 29
   /users/{id}:
     get:
       tags:
