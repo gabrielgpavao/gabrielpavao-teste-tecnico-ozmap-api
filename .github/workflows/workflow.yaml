@@ -13,5 +13,7 @@ jobs:
           node-version: 18.
       - name: Install Dependencies
         run: npm install
+      - name: Set Test Environment
+        run: echo "NODE_ENV=test" >> $GITHUB_ENV
       - name: Run Tests
         run: npm run test
