@@ -7,10 +7,12 @@
     - [Inicialização do Servidor](#14-inicialização-do-servidor)
     - [Execução dos Testes](#15-execução-dos-testes)
 - [Documentação da API](#2-documentação-da-api)
+- [Diagrama de Entidade Relacionamento (DER)](#3-diagrama-de-entidade-relacionamento)
 
 ---
 
 ## 1. Início Rápido
+[ Voltar para o topo ](#sumário)
 
 ### 1.1. Instalando Dependências
 
@@ -91,6 +93,7 @@ yarn test
 ---
 
 ## 2. Documentação da API
+[ Voltar para o topo ](#sumário)
 
 A documentação da API foi feita com o Swagger e está localizada na rota `/swagger` da url base.
 
@@ -98,3 +101,12 @@ Exemplo:
 ```
 http://localhost:3001/swagger
 ```
+
+---
+
+## 3. Diagrama de Entidade Relacionamento
+[ Voltar para o topo ](#sumário)
+
+Relações entre as tabelas do banco de dados.
+
+![DER](https://i.imgur.com/dLvDgDp.jpg)
