@@ -47,7 +47,7 @@ Execute as migrações para criar as entidades da aplicação com o comando:
 
 Caso use npm
 ```bash
-npm run typeorm migration:run -d src/data-source.ts
+npm run typeorm migration:run -- -d src/data-source
 ```
 
 Caso use yarn
